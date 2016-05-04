@@ -1,0 +1,31 @@
+
+
+<?php
+
+class VMostrarAlumnes implements Vista{
+	private $model;
+	
+	function __construct($model) {
+		$this->model = $model;
+	}
+
+	public function mostraPagina(){
+		?>
+		<!DOCTYPE html>
+		<html lang="es">
+			<head>
+				<meta charset="UTF-8" />
+				<title>Llistat alumnes</title>
+			</head>
+			<body>
+			<?php
+            $model->donaLlistaAlumnes();
+            foreach($e, $model)
+            	ech
+			?>
+			</body>
+		</html>
+	}
+}
+?>
+
