@@ -17,6 +17,7 @@ class Router {
 
     }
 
+    
 	/**
 		Si la ruta no existeix es produeix un error que caldria controlar.
 	*/
@@ -35,7 +36,9 @@ class Router {
 class Route {
 
     public $model;
+
     public $vista;
+
     public $controlador;
 
     
