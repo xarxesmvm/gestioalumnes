@@ -60,8 +60,8 @@ class BDAlumnes{
 
 		foreach($this->arrayAlumnes as $ar){
 			$nomICognoms = 	array(
-									"nom" 		=> $ar["nom"],
-									"cognoms" 	=> $ar["cognoms"],
+				"nom" 		=> $ar["nom"],
+				"cognoms" 	=> $ar["cognoms"],
 								);
 			$resultat[$i] = $nomICognoms;
 			$i++;

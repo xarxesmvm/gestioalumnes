@@ -7,6 +7,14 @@
 */
 
 abstract class Vista{
+	protected $model;
+	protected $ruta;
+	
+	function __construct($ruta, $model) {
+		$this->model = $model;
+		$this->ruta  = $ruta;
+	}
+		
 	
 	/*
 		Funció que caldrà que es redefineixi a cada vista
@@ -15,7 +23,7 @@ abstract class Vista{
 		taula html amb les dades, però no contindrà tota la 
 		informació referent als fulls d'estil css, al head etc.
 	*/
-	abstract protected function mostraContingutPagina();
+	abstract public function mostraContingutPagina();
 	
 	/*
 		Funció que caldrà que es redefineixi a cada vista
@@ -26,32 +34,9 @@ abstract class Vista{
 		web.
 		Exemple: return "Enviar correu electrónic als alumnes";
 	*/
-	abstract protected function getTitolPaginaWeb();
+	abstract public function getTitolPaginaWeb();
 
-	/*
-		Mètode comú a totes les Vistes.
-		D'aquesta manera ens assegurem que sempre tingui la mateixa 
-		estructura i només varïi el contingut i el títol que l'haurà
-		d'implementar cada desenvolupador a partir dels mètodes:
-		mostraContingutPagina() i  getTitolPaginaWeb().
-	*/	
-	public function mostraPagina(){
-		?>
-		<!DOCTYPE html>
-		<html lang="es">
-			<head>
-				<meta charset="UTF-8" />
-				<title>Llistat alumnes</title>
-			</head>
-			<body>
-				<h1>Gestió de l'alumnat</h1>
-				<h2><?php echo $this->getTitolPaginaWeb();?></h2>
-				<?php $this->mostraContingutPagina();?>
-				<a href="./index.php"><--Inici</a>
-			</body>
-		</html>
-		<?php
-	}
+	
 
 	
 }

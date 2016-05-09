@@ -12,13 +12,19 @@
     té cap funció específica
 
 ***************************************/
-class CMostrarAlumnes{
+include_once "Controlador.php";
+
+class CMostrarAlumnes implements Controlador{
 	private $vista;
 	private $model;
 	
-	function __construct(){
-	
+	function __construct($model){
+		$this->model = $model;
 	}
 	
+	public function main(){
+		//Com que es tracta d'un llistat, el controlador no fa res.
+		;
+	}
 	
 }

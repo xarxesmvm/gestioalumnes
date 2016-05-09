@@ -1,4 +1,5 @@
 <?php
+
 /**
 	Institut Manuel Vàzquez Montalbán
 	Mòdul: IAW (Implantació d'Alicacions Web)
@@ -6,12 +7,12 @@
 	Exercici: Gestió de l'alumnat
 */
 ini_set('display_errors', 'on');
+
 /* 
 	Incloem la Base de dades simulada amb una classe php
 	(En una situació real no ho tindríem mai així...)
 */
 include_once 'BDAlumnes.php';
-
 
 
 class CPrincipal{
@@ -40,50 +41,13 @@ class CPrincipal{
 	/********** MÈTODES ****************************************/
 	/***********************************************************/
 	// Contstructora
-	function __construct(){
+	function __construct(Router $enrutador, $ruta){
 
 		$this->funcionalitats = array();
 		$this->afegirFuncionalitats();
 		$this->BDA = new BDAlumnes();
-
-	}
-	
-	/**
-		Mètode que crea un vector amb el nom de les noves funcionalitats.
-		Cada vegada que el desenvolupador de l'aplicació crea una nova 
-		funcionalitat, cal que afegeixi el nom de l'arxiu en aquest vector
-		tenint en compte que:
 		
-		Cada nova funcionalitat ha d'estar composta per tres arxius:
-			VNovaFuncinalitat.php
-			MNovaFuncionalitat.php
-			CNovaFuncionalitat.php
-			El desenvolupador de l'aplicació ha d'afegir al vector el nom:
-			NovaFuncionalitat.
-		
-		Exemple: El desevolupador ha creat una funcionalitat per enviar 
-		un correu a tots els alumnes.
-		Crea els arxius MEnviarCorreus.php, VEnviarCorreus.php, CEnviarCorreus.php.
-		
-		En l'arxiu index.php ha afegit el següent enllaç: 
-		<a href="./CPrincipal.php?accio=correu">Enviar correu</a>
-		i afegeix al vector $funcionalitats la paraula "EnviarCorreus" amb la clau
-		'correu' (que ha de correspondre al paràmetre http que activa el procediment)
-		d'aquesta manera:
-			$this->funcionalitats('correu'=>'EnviarCorreus');
-	*/
-	private function afegirFuncionalitats(){
-		$this->funcionalitats['mostrar']='MostrarAlumnes';
-	}
-	
-	/*
-		Funció principal... la que primer s'executa...
-		s'invoca al final d'aquest arxiu.
-	*/
-	public function main(){
-		
-//		var_dump($this->funcionalitats);
-		/*
+				/*
 			Agafem el paràmetre accio de la url que contindrà 
 			el nom de la funcionalitat com a valor.
 		*/
@@ -104,7 +68,7 @@ class CPrincipal{
 
 			
 			if(isset($m)){
-				// incloem l'arxiu php depenent del paràmetre $m. $v o $c
+				// incloem arxiu php depenent del paràmetre $m. $v o $c
 				include_once $m.'.php'; 
 				$this->model 			= new $m($this->BDA); 
 				
@@ -112,21 +76,74 @@ class CPrincipal{
 				$this->vista 			= new $v($this->model);
 				
 				include_once $c.'.php';
-				$this->controlador 	= new $c($this->model);
+				$this->controlador = new $c($this->model, $this->vista);
 
 				/* 
 					Finalment, si tot es correcte, invoquem la funció
-					mostraPàgina de la Vista que ens mostrarà un html
-					amb el que ha demanat l'usuari.
+					main del controlador.
 				*/
-				$this->vista->mostraPagina();
+				$this->controlador->main();
 			}
 		}
+
+	}
+	
+	/**
+		Mètode que crea un vector amb el nom de les noves funcionalitats
+		Cada vegada que el desenvolupador de l'aplicació crea una nova 
+		funcionalitat, cal que afegeixi el nom de l'arxiu en aquest 
+		vector tenint en compte que:
+		
+		Cada nova funcionalitat ha d'estar composta per tres arxius:
+			VNovaFuncinalitat.php
+			MNovaFuncionalitat.php
+			CNovaFuncionalitat.php
+			El desenvolupador de l'aplicació ha d'afegir al vector el 
+			nom:
+			NovaFuncionalitat.
+		
+		Exemple: El desevolupador ha creat una funcionalitat per enviar 
+		un correu a tots els alumnes.
+		Crea els arxius MEnviarCorreus.php, VEnviarCorreus.php, 
+		* CEnviarCorreus.php.
+		
+		En l'arxiu index.php ha afegit el següent enllaç: 
+		<a href="./CPrincipal.php?accio=correu">Enviar correu</a>
+		i afegeix al vector $funcionalitats la paraula "EnviarCorreus" 
+		* amb la clau 'correu' (que ha de correspondre al paràmetre 
+		* http que activa el procediment)
+		d'aquesta manera:
+			$this->funcionalitats('correu'=>'EnviarCorreus');
+	*/
+	private function afegirFuncionalitats(){
+		$this->funcionalitats['mostrar']='MostrarAlumnes';
+	}
+	
+	/*
+		Funció principal... la que primer s'executa...
+		s'invoca al final d'aquest arxiu.
+	*/
+	public function output(){
+		?>
+		<!DOCTYPE html>
+		<html lang="es">
+			<head>
+				<meta charset="UTF-8" />
+				<title>Gestió de l'alumnat</title>
+			</head>
+			<body>
+				<h1>Gestió de l'alumnat</h1>
+				<h2><?php echo $this->vista->getTitolPaginaWeb();?></h2>
+				<?php $this->vista->mostraContingutPagina();?>
+				<a href="./index.php"><--Inici</a>
+			</body>
+		</html>
+		<?php
 	}	
 }	
 
 // Script
 $cp = new CPrincipal();
-$cp->main();
+$cp->output();
 
 ?>
