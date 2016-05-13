@@ -25,7 +25,7 @@ class CPrincipal{
 		i el controlador. 
 		També un altre que representarà la base de dades
 	*/
-	private $model;
+//	private $model;
 	private $vista;
 	private $controlador;
 	private $baseDeDades;
@@ -34,25 +34,23 @@ class CPrincipal{
 	/********** MÈTODES ****************************************/
 	/***********************************************************/
 	// Contstructora
-	function __construct(Router $enrutador, $nomRuta){
+	function __construct(Router $enrutador, $nomRuta, $accio){
 
 		$ruta = $enrutador->getRoute($nomRuta);
-
-
-
+		
 		$this->BDA = new BDAlumnes();
 		
 		/*
 			Agafem el paràmetre accio de la url que contindrà 
 			el nom de la funcionalitat com a valor.
 		*/
-		$nomModel 			= $ruta->model;	
-		$nomVista 			= $ruta->vista;
-		$nomControlador 	= $ruta->controlador;
+		$nomModel 			= $ruta->getModel();	
+		$nomVista 			= $ruta->getVista();
+		$nomControlador 	= $ruta->getControlador();
 		
 		
 		
-		if(isset($nomModel)){
+		if(isset($nomVista)){
 			// incloem arxiu php depenent del paràmetre $m. $v o $c
 			include_once $nomModel.'.php'; 
 			$this->model 			= new $nomModel($this->BDA); 
@@ -61,15 +59,14 @@ class CPrincipal{
 			$this->vista 			= new $nomVista($ruta, $this->model);
 			
 			include_once $nomControlador.'.php';
-			$this->controlador = new $nomControlador($this->model, $this->vista);
+			$this->controlador = new $nomControlador($this->model);
 			/* 
 				Finalment, si tot es correcte, invoquem la funció
 				main del controlador.
 			*/
-			$this->controlador->main();
+			 if (!empty($accio)) $this->controller->{$accio}();
 		}else
 			echo "Eror, MVC incorrecte";
-		
 	}
 	
 	/*
@@ -97,9 +94,9 @@ class CPrincipal{
 
 // Script
 if (isset($_GET['accio']) && !empty($_GET['accio'])) {
-	$cp = new CPrincipal(new Router(), $_GET['accio']);
+	$cp = new CPrincipal(new Router(), $_GET['accio'], $_GET['accio']);
 	$cp->output();
-}else {
+}else
 	echo "Error, funcionalitat incorrecta.";
-}
+
 ?>

@@ -14,7 +14,7 @@ abstract class Vista{
 		$this->model = $model;
 		$this->ruta  = $ruta;
 	}
-		
+	
 	
 	/*
 		Funció que caldrà que es redefineixi a cada vista

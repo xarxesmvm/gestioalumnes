@@ -16,6 +16,6 @@
 	<body>
 		<h1>Gestió de l'alumnat</h1>
 		<!-- Paràmetre: accio, valor del paràmetre: mostrar -->
-		<a href="./CPrincipal.php?accio=mostrar">Mostrar alumnes</a>
+		<a href="./CPrincipal.php?ruta=CMostrarAlumnes&accio=mostrar">Mostrar alumnes</a>
 	</body>
 </html>
