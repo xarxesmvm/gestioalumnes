@@ -5,8 +5,27 @@
 	Tema: Patrons: el Model Vista Controlador
 	Exercici: Gestió de l'alumnat
 */
-interface Controlador{
-	public function main();
+class Controlador{
+	protected $model;
+	protected $missatges; // Array que representa el conjunt de missatges
+	// que se li pot passar al model.
+	
+	function __construct($model){
+		$this->model = $model;
+		$this->missatges = array();
+	}
+	
+	protected function addMissatge($missatge){
+		array_push($this->missatges, $missatge);
+	}
+	
+	protected function getMissatges(){
+		return $this->missatges;
+	}
+	
+	protected function getModel(){
+		return $this->model;
+	}
 }
 
 ?>

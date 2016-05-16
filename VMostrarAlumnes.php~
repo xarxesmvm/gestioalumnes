@@ -9,11 +9,6 @@
 include_once 'Vista.php';
 
 class VMostrarAlumnes extends Vista{
-	private $model;
-	
-	function __construct($model) {
-		$this->model = $model;
-	}
 	
 	/*
 		Mètode que cal sobreescriure obligatòriament ja que és abstracte
@@ -21,7 +16,7 @@ class VMostrarAlumnes extends Vista{
 		Cal que mostri (echo) el contingut html específic d'aquesta 
 		funcionalitat.
 	*/
-	protected function mostraContingutPagina(){
+	public function mostraContingutPagina(){
 		/*
 			Invoquem, del model, la funció que ens retorna la llista dels 
 			alumnes amb nom i cognoms ho mostrem tot en una taula html.
@@ -37,7 +32,7 @@ class VMostrarAlumnes extends Vista{
 			echo "</table>";
 		}
 
-	}	
+	}
 
 	/*
 		Mètode que cal sobreescriure obligatòriament ja que és abstracte
@@ -45,7 +40,7 @@ class VMostrarAlumnes extends Vista{
 		Cal que retorni (return) un string que representarà el títol de la
 		pàgina web.
 	*/
-	protected function getTitolPaginaWeb(){
+	public function getTitolPaginaWeb(){
 		return "Llistat d'alumnes";
 	}	
 	

@@ -1,0 +1,20 @@
+Creació d'una funcionalitat que modifica l'estat de la base de dades:
+
+1. Afegim un nou enllaç a l'índex.php:
+		<p>
+		<a href="./CPrincipal.php?ruta=afegiralumne&accio=mostrar">Afegir un nou alumne al centre</a>
+	La ruta és el nom per el qual identificarem la funcionalitat.
+	L'acció és la funció que haurà d'estar definida en el Controlador respectiu.
+
+2. Anem a la classe Router i afegim una nou model/vista/controlador a la taula:
+			$this->table['afegiralumne'] = new Route('VAfegirAlumne', 'CAfegirAlumne');  
+
+3. Creem 3 arxius: un per el controlador ( que l'he anomenat CAfegirAlumne en la classe Router)
+	un per a la vista (que l'he anomenada VAfegirAlumne) i el model cal que s'anomeni
+	igual que el controlador però amb una M majúscula al davant en comptes d'una C:
+	MAfegirAlumne.
+	AIXÒ ÉS UNA CONVENCIÓ QUE M'HE INVENTAT
+	
+	Resultat: 3 arxius que es diguin VAfegirAlumne.php, MAfegirAlumne.php i CAfegirAlumne.php
+
+

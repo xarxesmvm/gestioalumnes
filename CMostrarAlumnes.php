@@ -14,15 +14,10 @@
 ***************************************/
 include_once "Controlador.php";
 
-class CMostrarAlumnes implements Controlador{
-	private $vista;
-	private $model;
+class CMostrarAlumnes extends Controlador{
 	
-	function __construct($model){
-		$this->model = $model;
-	}
 	
-	public function main(){
+	public function mostrar(){
 		//Com que es tracta d'un llistat, el controlador no fa res.
 		;
 	}

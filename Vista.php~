@@ -13,8 +13,9 @@ abstract class Vista{
 	function __construct($ruta, $model) {
 		$this->model = $model;
 		$this->ruta  = $ruta;
-	}
 		
+	}
+	
 	
 	/*
 		Funció que caldrà que es redefineixi a cada vista

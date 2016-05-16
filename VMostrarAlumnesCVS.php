@@ -8,9 +8,8 @@
 
 include_once 'Vista.php';
 
-class VMostrarAlumnes extends Vista{
+class VMostrarAlumnesCVS extends Vista{
 	
-
 	/*
 		Mètode que cal sobreescriure obligatòriament ja que és abstracte
 		a la classe Vista de la que hereta aquest classe.
@@ -25,12 +24,12 @@ class VMostrarAlumnes extends Vista{
 		$arrayLlistat = $this->model->selectNomCognomAlumnes();
 		if(count($arrayLlistat)==0) echo "<h2> No hi ha alumnes a la base de dades </h2>";
 		else{
-			echo '<table border="1"> <th>Nom</th><th>Cognoms</th>';
+			echo 'Nom;Cognoms</br>';
 					
 			foreach($arrayLlistat as $ar)
-				echo "<tr><td>" . $ar["nom"] . "</td><td>". $ar["cognoms"] ."</td></tr>";
+				echo $ar["nom"] . ";".$ar["cognoms"]."</br>";
 	
-			echo "</table>";
+			
 		}
 
 	}
@@ -42,7 +41,7 @@ class VMostrarAlumnes extends Vista{
 		pàgina web.
 	*/
 	public function getTitolPaginaWeb(){
-		return "Llistat d'alumnes";
+		return "Llistat d'alumnes en format CVS";
 	}	
 	
 }

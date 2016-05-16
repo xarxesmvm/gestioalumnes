@@ -13,6 +13,7 @@ abstract class Vista{
 	function __construct($ruta, $model) {
 		$this->model = $model;
 		$this->ruta  = $ruta;
+		
 	}
 	
 	
@@ -36,7 +37,9 @@ abstract class Vista{
 	*/
 	abstract public function getTitolPaginaWeb();
 
-	
+	protected function getModel(){
+		return $this->model;
+	}
 
 	
 }

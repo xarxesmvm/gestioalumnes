@@ -5,13 +5,13 @@ class Router {
 	
     public function __construct() {
 		
-        /* 	Exampleroute" is the name of the route, e.g. /exampleroute
-			Here, class names are used rather than instances so instances are only ever created when needed, otherwise every model, view and 
-			controller in the system would be instantiated on every request, which obviously isn't good!
+      /* 
+			Creació de l'array associatiu que relaciona un nom de funcionalitat amb el nom
+			de la vista, del controlador i del model de cadascuna de les funcioanlitats.
 		*/
-        $this->table['mostrar'] = new Route('VMostrarAlumnes', 'CMostrarAlumnes');
-
-        //$this->table['someotherroute'] = new Route('OtherModel', 'OtherView', 'OtherController');  
+			$this->table['mostraralumnes'] 		= new Route('VMostrarAlumnes', 		'CMostrarAlumnes');
+			$this->table['mostraralumnescvs'] 	= new Route('VMostrarAlumnesCVS', 	'CMostrarAlumnes');  
+			$this->table['afegiralumne'] 			= new Route('VAfegirAlumne', 			'CAfegirAlumne');  
 		
     }
 	
@@ -26,16 +26,29 @@ class Router {
 
 }
 
+/**
+	Classe que encapsula en un únic objecte el nom de la vista, del controlador
+	i del model.
+*/
 class Route {
 	
-    private $vista;
-    private $controlador;
-		
+	private $vista;
+	private $controlador;
+	
+	/**
+		Constructora
+	*/	
 	public function __construct($vista, $controlador) {
 		$this->vista = $vista;
 		$this->controlador = $controlador;        
-    }
+   }
 	
+	/**
+		Retorna el nom de la classe que representa el model.
+		Per convenció, ha de tenir el mateix nom que el Controlador
+		però la primera lletra ha de ser una M majúscula en comptes
+		d'una C.
+	*/	
 	public function getModel(){
 		return "M".substr($this->controlador, 1, strlen($this->controlador));
 	}

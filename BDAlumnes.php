@@ -70,5 +70,14 @@ class BDAlumnes{
 		return $resultat;
 	
 	}
+	
+	public function insertNouAlumne($alumne){
+		$a = array(	"nom"=>$alumne->nom, 
+						"cognoms"=>$alumne->cognoms, 
+						"email"=>$alumne->email, 
+						"DNI"=>$alumne->dni,
+						"telefon"=>$alumne->telefon,  );
+		array_push($this->arrayAlumnes, $a);
+	}
 }
 ?>

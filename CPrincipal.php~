@@ -28,45 +28,86 @@ class CPrincipal{
 //	private $model;
 	private $vista;
 	private $controlador;
-	private $baseDeDades;
+	
 	
 	/***********************************************************/
 	/********** MÈTODES ****************************************/
 	/***********************************************************/
-	// Contstructora
-	function __construct(Router $enrutador, $nomRuta){
-
-		$ruta = $enrutador->getRoute($nomRuta);
+	/**
+		Contstructora
 		
-		$this->BDA = new BDAlumnes();
+		@param: $nomRuta: nom de la funcionalitat. Si és nul 
+		aleshores s'imprimeix el menú.
 		
-		/*
-			Agafem el paràmetre accio de la url que contindrà 
-			el nom de la funcionalitat com a valor.
-		*/
-		$nomModel 			= $ruta->getModel();	
-		$nomVista 			= $ruta->getVista();
-		$nomControlador 	= $ruta->getControlador();
+		@param: $accio: nom del mètode del controlador principal
+		que s'ha dexecutar.
 		
+		@param: $enrutador: objecte que, a partir del nom de la ruta
+		retorna el nom del controlador, del model i de la vista.
+	*/
+	function __construct(Router $enrutador, $nomRuta, $accio=null){
 		
-		
-		if(isset($nomVista)){
-			// incloem arxiu php depenent del paràmetre $m. $v o $c
-			include_once $nomModel.'.php'; 
-			$this->model 			= new $nomModel($this->BDA); 
+		if($nomRuta==null) 
+			$this->menu();		
+		else {
+			$ruta = $enrutador->getRoute($nomRuta);
 			
-			include_once $nomVista.'.php';
-			$this->vista 			= new $nomVista($ruta, $this->model);
-			
-			include_once $nomControlador.'.php';
-			$this->controlador = new $nomControlador($this->model);
-			/* 
-				Finalment, si tot es correcte, invoquem la funció
-				main del controlador.
+			/*
+				Agafem el paràmetre accio de la url que contindrà 
+				el nom de la funcionalitat com a valor.
 			*/
-			$this->controlador->main();
-		}else
-			echo "Eror, MVC incorrecte";
+			$nomModel 			= $ruta->getModel();	
+			$nomVista 			= $ruta->getVista();
+			$nomControlador 	= $ruta->getControlador();
+			
+			if(isset($nomVista)){
+				// incloem arxiu php depenent del paràmetre $m. $v o $c
+				include_once $nomModel.'.php';
+				$this->model 			= new $nomModel("alumnes.dat"); 
+				
+				include_once $nomVista.'.php';
+				$this->vista 			= new $nomVista($ruta, $this->model);
+				
+				include_once $nomControlador.'.php';
+				$this->controlador = new $nomControlador($this->model);
+				/* 
+					Finalment, si tot es correcte, invoquem la funció
+					main del controlador.
+				*/
+				if (!empty($accio)) $this->controlador->{$accio}();
+				}else
+					echo "Eror, MVC incorrecte";
+			}
+	}
+	
+	public function menu(){
+		?>
+		<!-- 
+			
+			Institut Manuel Vàzquez Montalbán
+			Mòdul: IAW (Implantació d'Alicacions Web)
+			Tema: Patrons: el Model Vista Controlador
+			Exercici: Gestió de l'alumnat
+
+		-->
+		<!DOCTYPE html>
+		<html lang="es">
+			<head>
+				<meta charset="UTF-8" />
+				<title>Gestió de l'alumnat v1.0</title>
+			</head>
+			<body>
+				<h1>Gestió de l'alumnat</h1>
+				<!-- Paràmetre: accio, valor del paràmetre: mostrar -->
+				<a href="./CPrincipal.php?ruta=mostraralumnes&accio=mostrar">Mostrar alumnes</a>
+				<p>
+ 				<a href="./CPrincipal.php?ruta=mostraralumnescvs&accio=mostrar">Mostrar alumnes en format CVS</a>
+				<p>
+				<a href="./CPrincipal.php?ruta=afegiralumne&accio=desar">Afegir un nou alumne al centre</a>
+			</body>
+		</html>
+		<?php
+	
 	}
 	
 	/*
@@ -85,18 +126,21 @@ class CPrincipal{
 				<h1>Gestió de l'alumnat</h1>
 				<h2><?php echo $this->vista->getTitolPaginaWeb();?></h2>
 				<?php $this->vista->mostraContingutPagina();?>
-				<a href="./index.php"><--Inici</a>
+				</p>
+				<a href="./CPrincipal.php"><--Inici</a>
 			</body>
 		</html>
 		<?php
 	}	
-}	
+}
 
 // Script
-if (isset($_GET['accio']) && !empty($_GET['accio'])) {
-	$cp = new CPrincipal(new Router(), $_GET['accio']);
+if(isset($_GET['accio'])){
+	$cp = new CPrincipal(new Router(), $_GET['ruta'], isset($_GET['accio'])?$_GET['accio']:null);
 	$cp->output();
 }else
-	echo "Error, funcionalitat incorrecta.";
+	$cp = new CPrincipal(new Router(), null, isset($_GET['accio'])?$_GET['accio']:null);
+	
+
 
 ?>
